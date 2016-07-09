@@ -1,0 +1,138 @@
+@font-face {
+  font-family: 'Libre Baskerville';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Libre Baskerville'), local('LibreBaskerville-Regular'), url(../fonts/pR0sBQVcY0JZc_ciXjFsK2vhaIAz1NJzluD_h2UBN7c.woff) format('woff');
+}
+@font-face {
+  font-family: 'Libre Baskerville';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Libre Baskerville Bold'), local('LibreBaskerville-Bold'), url(../fonts/kH7K4InNTm7mmOXXjrA5v2bXv0mI0yfCBzn-qhU0FPM.woff) format('woff');
+}
+@font-face {
+  font-family: 'Libre Baskerville';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Libre Baskerville Italic'), local('LibreBaskerville-Italic'), url(../fonts/QHIOz1iKF3bIEzRdDFaf5dCpxY7g_VZuMtgz78Sasn8.woff) format('woff');
+}
+
+*
+{
+	font-family: 'Libre Baskerville', serif;
+}
+
+a,a:hover
+{
+	text-decoration: none;
+}
+
+body
+{
+	background-color: #424242;
+}
+
+footer{
+	height: 6em;   /* pie de pagina*/
+	background-color: #3299bb;
+	padding-top: 3em;
+}
+
+footer a
+{
+	
+	color: #fff;
+}
+
+footer a:hover
+{
+	color: #ddd;
+}
+header{
+	background-color: #ff9900;
+	height: 10em;
+	
+}
+
+header > h1
+{
+	color: #fff;
+
+}
+img{
+	width: 100%;
+	height: auto;
+
+}
+.principal{
+	background-color: #e9e9e9;
+	box-shadow: 0 0 1em #000;
+	padding-left: 0;
+	padding-right: 0;
+	
+
+}
+.menuboton
+{
+	
+	
+	margin-top: 0.2em auto;
+	padding: auto 0;
+	
+}
+
+.menuboton > .form-group > a.btn
+{
+	min-width: 8em;
+	min-height: 8em;
+	margin: 0 .3em;
+	border-radius: 2em 2em 2em 2em;
+
+}
+
+.menuboton > .form-group > a.btn > span
+{
+	margin-top: 0.8em;
+	font-size: 2.5em;
+
+}
+
+.joinsession
+{
+	color: blue;
+}
+
+.phead{
+	font-size: 1em;
+}
+.pmenor
+{
+	color: red;
+}
+.pmayor{
+	color: green;
+}
+
+.navegamenu
+{
+	/*background-color: green;
+	margin-top: 0.3em;
+	height: .5em;*/
+
+}
+
+button,input,optgroup,select,textarea
+{
+	color: black;
+}
+.navbar-nav > li > a.btn
+{
+	padding-bottom: .5em;
+
+}
+.panel.panel-primary div.panel-body div.panel.panel-default div.panel-heading h4.panel-title a span
+{
+  width: 160px;
+  padding: .2em .6em;
+  display: inline-block;
+}
