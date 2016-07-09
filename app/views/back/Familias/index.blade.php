@@ -1,13 +1,7 @@
 @extends('back.layout')
 @section('content')
-
-            <?php echo "<pre>"?>
-              <?php print_r($familias->foto)  ?> 
-            <?php echo "</pre>" ?>
-
     		<div class="col-sm-4 col-md-offset-4"><!--parte IZQUIERDA-->
     			
-
                  @if(Session::has('message'))  <!--muestra mesaje de suceso que viene del homecontrol-->
                 <div class="alert alert-{{ Session::get('class') }} fade in">
                     <button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>

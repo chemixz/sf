@@ -38,11 +38,11 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th width="15%">Nombre</th>
-								<th width="15%">Email</th>
-								<th width="15%">Rol</th>
+								<th width="20%">Nombre</th>
+								<th width="20%">Email</th>
+								<th width="20%">Rol</th>
 								<th width="15%">Estatus</th>
-								<th width="40%"  class="text-right">Acciones</th>
+								<th width="20%"  class="text-center">Acciones</th>
 							</tr>
 						</thead>	
 
@@ -53,7 +53,7 @@
 							<td>{{$Us->email}}</td>
 							<td>{{$Us->rol}}</td>
 							<td>{{$Us->estatus}}</td>
-							<td class="text-right">
+							<td class="text-center">
 								<a href="{{URL::to('/dashboard/usuarios/resetear') }}/{{ $Us->id }}" class="btn btn-success cclave" alt="Default Password" title="Default Password">
 									<span class="glyphicon glyphicon-refresh"></span>
 								</a>
