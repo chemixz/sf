@@ -1,0 +1,63 @@
+
+
+<?php $__env->startSection('content'); ?>
+
+    		<div class="col-sm-7"> <!--parte derecha-->
+    			 <?php echo HTML::image('assets/img/jusuarios.png' ,'Sistema de Finanzas Familiar', ['class'=>'img-responsive','title'=> 'Sistemas de finanzs Familiar' ] ); ?>
+    		</div>
+
+    		<div class="col-sm-5"><!--parte IZQUIERDA-->
+    			<h3>
+                    Registros de usuarios
+                </h3>
+
+                <?php if(Session::has('message')): ?>  <!--muestra mesaje de suceso que viene del homecontrol-->
+                <div class="alert alert-<?php echo Session::get('class'); ?> fade in">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>
+                    <p>  <?php echo Session::get('message'); ?> </p>
+                </div>
+                <?php endif; ?>
+
+                 <?php if($errors->has()): ?>               
+                     <div class="alert alert-danger fade in">
+                     <button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>
+                        <?php foreach($errors->all() as $error): ?>
+                         <p><?php echo $error; ?></p>
+                        <?php endforeach; ?>
+
+                     </div>
+                <?php endif; ?>
+
+               
+                    <!--los campos pasan al home control dnd seran validados  y en usuario.php son ingresados ala bd-->
+
+			     <?php echo Form::open(array('url'=>'/home/guardarregistro','method'=>'post')); ?> <!--formulario de usuario registrarse-->
+					<div class="form-group">  
+                         <?php echo Form::label('nombre','Nombre'); ?>
+                         <?php echo Form::text('nombre',Input::old('nombre') ,['class'=>'form-control', 'placeholder'=>'Ingrese su Nombre'] ); ?>
+                    </div>
+                    
+
+                    <div class="form-group">
+                        <?php echo Form::label('email','Correo Electronico'); ?>
+						<?php echo Form::email('email',Input::old('email') ,['class'=>'form-control', 'placeholder'=>'Ingrese su email'] ); ?>	
+					</div>
+
+					<div class="form-group">
+                        <?php echo Form::label('clave','Contrasena'); ?>
+                        <?php echo Form::password('clave',['class'=>'form-control', 'placeholder'=>'Ingrese su clave'] ); ?>
+						
+					</div>
+                    <div class="form-group">
+                        <?php echo Form::label('cclave','Confirmar su clave'); ?>
+                        <?php echo Form::password('cclave',['class'=>'form-control', 'placeholder'=>'Confirmar su clave'] ); ?>
+                        
+                    </div>
+                    <?php echo Form::submit('Guardar',['class'=>'btn btn-primary'] ); ?>
+					<?php echo HTML::link('/' , '<<Atras',['class'=>'btn btn-danger'] ); ?>
+					
+				<?php echo Form::close(); ?>
+    		</div>
+    	
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('front.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
