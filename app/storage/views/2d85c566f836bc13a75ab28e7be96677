@@ -1,0 +1,90 @@
+<?php $__env->startSection('content'); ?>
+	<h3>Miembros de la Familia <?php echo !empty($familia[0]->nombre) ? $familia[0]->nombre : 'No se han agregado datos de la familia'; ?></h3>
+		<div class="row">
+			<div class="col-sm-12">
+				<?php if (!empty($familia[0]->nombre)): ?>
+				<a href="<?php echo URL::to('/dashboard/miembros/create/'); ?>" class="btn btn-success" alt="Agregar Miembro Familiar" title="Agregar Miembro Familiar">
+					<span class="glyphicon glyphicon-edit"></span>&nbsp; Agregar Miembro Familiar
+				</a>
+				<?php else: ?>
+				<a href="<?php echo URL::to('/dashboard/familia'); ?>" class="btn btn-danger" alt="Agregar datos de Familia" title="Agregar datos de Familia">
+					<span class="glyphicon glyphicon-edit"></span>&nbsp; Agregar datos de Familia
+				</a>
+				<?php endif; ?>
+				<a href="<?php echo URL::to('/dashboard'); ?>" class="btn btn-warning" alt="Agregar Miembro Familiar" title="Agregar Miembro Familiar">
+					<span class="glyphicon glyphicon-chevron-left"></span>&nbsp; Atras
+				</a>
+			</div>
+			<div class="col-sm-12">
+				 <?php if(Session::has('message')): ?>  <!--muestra mesaje de suceso que viene del homecontrol-->
+                <div class="alert alert-<?php echo Session::get('class'); ?> fade in">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>
+                    <p>  <?php echo Session::get('message'); ?> </p>
+                </div>
+                <?php endif; ?>
+
+                <?php if($errors->has()): ?>               
+                    <div class="alert alert-danger fade in">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>
+                    	<?php foreach($errors->all() as $error): ?>
+                        	<p><?php echo $error; ?></p>
+                        <?php endforeach; ?>
+
+                     </div>
+                <?php endif; ?>
+
+			</div>
+			<div class="col-sm-12">
+
+					<?php if (count($miembros)>0): ?>
+
+					<table class="table">
+						<thead>
+							<tr>
+								<th width="15%">Foto</th>
+								<th width="15%">Nombre</th>
+								<th width="15%">Apellido</th>
+								<th width="15%">Parentesco</th>
+								<th width="10%">Estatus</th>
+								<th width="15%" class="text-right" >Acciones</th>
+							</tr>
+						</thead>	
+
+						<tbody>
+					<?php foreach ($miembros as $m): ?>
+						<tr>
+							<td><img src="<?php echo URL::to('/'); ?>/uploads/images/<?php echo $m->foto; ?>" alt="<?php echo $m->nombre; ?> <?php echo $m->apellido; ?>" title="<?php echo $m->nombre; ?> <?php echo $m->apellido; ?>" class="img-responsive antigua-foto"></td>
+							<td><?php echo $m->nombre; ?></td>
+							<td><?php echo $m->apellido; ?></td>
+							<td><?php echo $m->parentesco; ?></td>
+							<td><?php echo $m->estatus; ?></td>
+							<td class="text-right">
+								<a href="<?php echo URL::to('/dashboard/miembros/edit'); ?>/<?php echo $m->id; ?>" class="btn btn-primary" alt="Modificar" title="Modificar" >
+									<span class="glyphicon glyphicon-edit"></span>
+								</a>
+								
+								<a href="<?php echo URL::to('/dashboard/miembros/metas/'); ?>/<?php echo $m->id; ?>" class="btn btn-info" alt="Metas" title="Metas" >
+									<span class="glyphicon glyphicon-bookmark"></span>
+								</a>
+								<a href="<?php echo URL::to('/dashboard/conceptosmiembros'); ?>/<?php echo $m->id; ?>" class="btn btn-warning" alt="Presupuesto Mensual" title="Presupuesto Mensual" >
+									<span class="glyphicon glyphicon-usd"></span>
+								</a>
+								<a href="<?php echo URL::to('/dashboard/miembros/destroy'); ?>/<?php echo $m->id; ?>" class="btn btn-danger eliminar" alt="Eliminar" title="Eliminar">
+									<span class="glyphicon glyphicon-trash"></span>
+								</a>
+							</td>
+						</tr>
+						
+					<?php endforeach; ?>
+						</tbody>
+					</table>
+					<?php else: ?>
+						<h3>No hay Miembros Registrados</h3>
+					<?php endif; ?>
+
+						
+				</div>
+			</div>
+	
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('back.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

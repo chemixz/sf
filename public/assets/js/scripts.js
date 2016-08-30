@@ -21,7 +21,7 @@ $(document).ready(function($) {
 		yearRange: "+0:+20"
 	});
 	
-	$.post('/sf/public/getData', null, function(datos) {
+	$.post('/getData', null, function(datos) {
 		var data = [
 		  ['Ingresos', datos.Ingresos],['Egresos', datos.Egresos], ['Patrimonio', datos.Patrimonio]
 		];

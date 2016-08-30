@@ -1,0 +1,56 @@
+<?php $__env->startSection('content'); ?>
+		<h2>Agregar Conceptos para -> <?php echo $miembro->nombre; ?> <?php echo $miembro->apellido; ?></h2>
+
+		<div class="col-sm-4 col-md-offset-4"><!--parte IZQUIERDA-->
+			<?php if(Session::has('message')): ?>  <!--muestra mesaje de suceso que viene del homecontrol-->
+                <div class="alert alert-<?php echo Session::get('class'); ?> fade in">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>
+                    <p>  <?php echo Session::get('message'); ?> </p>
+                </div>
+            <?php endif; ?>
+	        <?php if($errors->has()): ?>               
+	             <div class="alert alert-danger fade in">
+	             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>
+	             <?php foreach($errors->all() as $error): ?>
+	                <p><?php echo $error; ?></p>
+	             <?php endforeach; ?>
+		         </div>
+	        <?php endif; ?>
+			  <!--los campos pasan al home control dnd seran validados  y en usuario.php son ingresados ala bd-->
+			
+		    <?php echo Form::open(['url'=>'/dashboard/conceptosmiembros/store/'.$miembro->id,'method'=>'post']); ?> <!--formulario de usuario registrarse-->
+		
+		
+			<div class="form-group">
+				
+                <?php echo Form::label('monto','Monto'); ?>
+				<?php echo Form::text('monto',Input::old('monto') ,['class'=>'form-control', 'placeholder'=>'Ingrese  monto'] ); ?>
+		
+			</div >
+			
+			<div class="form-group">
+				<?php echo Form::label('descripcion','Descripción'); ?>
+				<?php echo Form::textarea('descripcion',Input::old('descripcion'),['class'=>'form-control', 'placeholder'=>'Ingrese La descripcion'] ); ?>	
+			</div >
+			<div class="form-group">
+                <?php echo Form::label('concepto_id','Concepto'); ?>	
+				 <select class="form-control" name="concepto_id">
+	                <option></option>
+	              
+	                <?php foreach ($conceptos as $Con): ?>
+	                    <option value='<?php echo $Con->id; ?>'> <?php echo $Con->nombre; ?> </option>
+	                <?php endforeach; ?>  
+	             </select>
+					
+			</div >
+			<?php echo Form::hidden('miembro_id' ,$miembro->id); ?>
+	        <?php echo Form::submit('Guardar',['class'=>'btn btn-primary'] ); ?>
+			<?php echo HTML::link('/dashboard/conceptosmiembros/'.$miembro->id , '<<Atras',['class'=>'btn btn-danger'] ); ?>
+			
+			<?php echo Form::close(); ?>
+		</div>
+
+
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('back.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

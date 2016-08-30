@@ -1,0 +1,187 @@
+<?php $__env->startSection('content'); ?>
+
+	<h3>Familia <?php echo !empty($familia[0]->nombre) ? $familia[0]->nombre : 'No se han agregado datos de la familia'; ?></h3>
+		<div class="row">
+			<div class="col-sm-12">
+				<?php if (empty($familia[0]->nombre)): ?>
+					<a href="<?php echo URL::to('/dashboard/familia'); ?>" class="btn btn-danger" alt="Agregar datos de Familia" title="Agregar datos de Familia">
+						<span class="glyphicon glyphicon-edit"></span>&nbsp; Agregar datos de Familia
+					</a>
+				<?php endif; ?>
+					<a href="<?php echo URL::to('/dashboard'); ?>" class="btn btn-warning" alt="Agregar Miembro Familiar" title="Agregar Miembro Familiar">
+						<span class="glyphicon glyphicon-chevron-left"></span>&nbsp; Atras
+					</a>
+			</div>
+                    <div class="col-sm-12">&nbsp;</div>
+			<div class="col-sm-12">
+				 <?php if(Session::has('message')): ?>  <!--muestra mesaje de suceso que viene del homecontrol-->
+                <div class="alert alert-<?php echo Session::get('class'); ?> fade in">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>
+                    <p>  <?php echo Session::get('message'); ?> </p>
+                </div>
+                <?php endif; ?>
+
+                <?php if($errors->has()): ?>               
+                    <div class="alert alert-danger fade in">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>
+                      <?php foreach($errors->all() as $error): ?>
+                          <p><?php echo $error; ?></p>
+                        <?php endforeach; ?>
+                     </div>
+                <?php endif; ?>
+
+
+
+      </div>
+      <?php if (!empty($familia[0]->nombre)): ?>
+        <div class="col-sm-4">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4 class='text-center'>Balance Familiar</h4></div>
+              <div class="panel-body">
+		    <img src="<?php echo URL::to('/'); ?>/uploads/images/<?php echo $familia[0]->foto; ?>" alt="<?php echo $familia[0]->nombre; ?>" title="<?php echo $familia[0]->nombre; ?>" class="img-responsive">
+              <table class="table table-stripped" >
+                <thead>
+                <tr>
+                  <th ><span class="phead">Ingresos </span></th>
+                  <th >Egresos</th>
+                  <th >Patrimonio</th>
+                </tr>
+                </thead>  
+                <tbody class='text-center'>
+                <tr>
+                  <td><?php echo $datosFamilia['Ingresos']; ?> </td>
+                  <td><?php echo $datosFamilia['Egresos']; ?> </td>
+                  <td>
+                    <?php if ($datosFamilia['Patrimonio']>0): ?>
+                      <span class='pmayor'><?php echo $datosFamilia['Patrimonio']; ?></span>
+                    <?php else: ?>
+                      <span class='pmenor'><?php echo $datosFamilia['Patrimonio']; ?></span>
+                    <?php endif; ?>
+                    
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-sm-8">
+          <div class="panel panel-primary">
+        <div class="panel-heading"><h4 class='text-center'>Miembros</h4></div>
+              <div class="panel-body">
+    <table class="table table-stripped">
+      <thead>
+      <tr>
+        <th >Miembro</th>
+        <th >Ingresos</th>
+        <th >Egresos</th>
+        <th >Patrimonio</th>
+      </tr>
+      </thead>  
+      <tbody class='text-center'>
+                    
+      <?php if ($datosFamilia['MiembrosI']): ?>
+          <?php 
+            $inc=1;
+          ?>                        
+                      <?php foreach ( $datosFamilia['MiembrosI'] as $miembro): ?>
+                            <tr>
+                              <?php 
+
+                                $acumI=0;   
+
+                                  foreach ($miembro->conceptos as $c) 
+                                  {
+                                    $acumI += $c->pivot->monto;
+                                  }
+
+                                  $acumE=0;   
+
+                                  foreach ($datosFamilia['MiembrosE']  as $concepto)
+                                  {
+                                    if ($concepto->id == $miembro->id ) {
+                                      foreach ($concepto->conceptos as $c) 
+                                      {
+                                        $acumE += $c->pivot->monto;
+                                      }
+                                    }
+                                  }
+                               ?>
+                               <table class="panel-group" id="accordion" width="100%">
+                                   <tr>
+                                   <td>
+                                     
+                                     <div class="panel panel-default">
+                                       <div class="panel-heading">
+                                         <h4 class="panel-title">
+                                           <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $inc; ?>">
+                                             <span><?php echo $miembro->nombre; ?></span>
+                                             <span><?php echo $acumI; ?></span>
+                                             <span><?php echo $acumE; ?></span>
+                                             <span class="<?php echo $acumI - $acumE > 0 ? 'pmayor' : 'pmenor'; ?>"><?php echo $patrimonio = $acumI - $acumE; ?></span>
+                                           </a>
+                                         </h4>
+                                       </div>
+                                       <div id="collapse<?php echo $inc; ?>" class="panel-collapse collapse">
+                                         <div class="panel-body">
+                                           <table class="table table-stripped">
+                                              <thead>
+                                                <tr>
+                                                  <th width="30%">Meta</th>
+                                                  <th>Monto</th>
+                                                  <th>Fecha Límite</th>
+                                                  <th>BsF. Acumulado</th>
+                                                  <th>Cumple</th>
+                                                </tr>
+                                              </thead>
+                                              <?php foreach ($miembro->metas as $meta): ?>
+                                                <tbody>
+                                                  <tr>
+                                                    <td>
+                                                      <?php echo $meta->descripcion; ?>
+                                                    </td>
+                                                    <td>
+                                                      <?php echo number_format($meta->metabs,2, ",","."); ?> <strong>Bsf:</strong>
+                                                    </td>
+                                                    <td>
+                                                      <?php echo Datemanager::date2normal($meta->fecha_limite); ?>
+                                                    </td>
+
+                                                      <?php 
+                                                        $calculo = ($patrimonio*$meta->prioridad/100) * Datemanager::CalcularMeses($meta->created_at,$meta->fecha_limite) ;
+                                                      ?>
+                                                    <td>
+                                                      <?php echo number_format($calculo,2, ",","."); ?> <strong>Bsf</strong>
+                                                    </td>
+                                                    <td class="<?php echo $calculo <=  $meta->metabs ? 'pmenor' : 'pmayor'; ?>">
+                                                      <?php echo $calculo <=  $meta->metabs ? 'No' : 'Sí'; ?>
+                                                    </td>
+                                                  </tr>
+                                                </tbody>
+                                              <?php endforeach; ?>
+                                           </table>
+                                         </div>
+                                       </div>
+                                     </div>
+                                   </td>
+                                   </tr>
+                               </table>
+                               <?php $inc++ ?>
+                      <?php endforeach; ?>
+                      <tr >
+                        
+                      </tr> 
+                  <?php endif; ?>
+			</tbody>
+		</table>
+	</div>
+    </div>
+</div>
+<?php endif; ?>	
+				
+		</div>
+	
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('back.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

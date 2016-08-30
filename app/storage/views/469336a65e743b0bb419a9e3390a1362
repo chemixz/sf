@@ -1,0 +1,46 @@
+
+
+<?php $__env->startSection('content'); ?>
+
+
+        <div class="col-sm-7">
+                <?php echo HTML::image( 'assets/img/estadistica.jpg', 'Sistema de Finanzas Familiar', [ 'class' => 'img-responsive', 'title' => 'Sistema de Finanzas Familiar' ] ); ?>
+        </div>
+        <div class="col-sm-5">
+          <h2>
+            ¡Regístrate ya!
+          </h2>
+
+
+          <?php if(Session::has('message')): ?>  <!--muestra mesaje de suceso que viene del homecontrol-->
+                <div class="alert alert-<?php echo Session::get('class'); ?> fade in">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">X</button>
+                    <p>  <?php echo Session::get('message'); ?> </p>
+                </div>
+          <?php endif; ?>
+
+                 <?php if($errors->has()): ?>               
+                     <div class="alert alert-danger fade in">
+                     <button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>
+                        <?php foreach($errors->all() as $error): ?>
+                         <p><?php echo $error; ?></p>
+                        <?php endforeach; ?>
+
+                     </div>
+                <?php endif; ?>
+
+
+                <?php echo Form::open( [ 'url' => '/home/renew','method' => 'post' ] ); ?>
+                <!-- <form role="form" action="/home/login" method="post"> -->
+                  <div class="form-group">
+                    <?php echo Form::label('email', 'Escriba su Correo Electrónico' ); ?>
+                    <?php echo Form::email( 'email' , null , [ 'class' => 'form-control', 'placeholder' => 'Ingrese su email' ] ); ?>
+                  </div>
+                  <?php echo Form::submit( 'Recordar Clave' , [ 'class' => 'btn btn-primary' ] ); ?>
+                  <?php echo HTML::link( '/home/registrese', 'Regístrese' , [ 'class' => 'btn btn-danger' ] ); ?>
+
+                <?php echo Form::close(); ?>
+            </div>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('front.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

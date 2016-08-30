@@ -1,0 +1,88 @@
+<?php $__env->startSection('content'); ?>
+	<h3>Presupuesto Mensual del miembro -> <?php echo $miembro->nombre; ?> <?php echo $miembro->apellido; ?></h3>
+		
+		<div class="row">
+			<div class="col-sm-12">
+				<a href="<?php echo URL::to('/dashboard/conceptosmiembros/create/'); ?>/<?php echo $miembro->id; ?>" class="btn btn-success" alt="Agregar Concepto" title="Agregar Concepto">
+					<span class="glyphicon glyphicon-edit"></span>&nbsp; Agregar Concepto 
+				</a>
+				<a href="<?php echo URL::to('/dashboard/miembros'); ?>" class="btn btn-warning" alt="Atras" title="Atras">
+					<span class="glyphicon glyphicon-chevron-left"></span>&nbsp; Atras 
+				</a>
+			</div>
+			
+			<div class="col-sm-12">
+				 <?php if(Session::has('message')): ?>  <!--muestra mesaje de suceso que viene del homecontrol-->
+                <div class="alert alert-<?php echo Session::get('class'); ?> fade in">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>
+                    <p>  <?php echo Session::get('message'); ?> </p>
+                </div>
+                <?php endif; ?>
+
+                <?php if($errors->has()): ?>               
+                    <div class="alert alert-danger fade in">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>
+                    	<?php foreach($errors->all() as $error): ?>
+                        	<p><?php echo $error; ?></p>
+                        <?php endforeach; ?>
+
+                     </div>
+                <?php endif; ?>
+
+			</div>
+			<div class="col-sm-12">
+
+					<?php if (count($conceptomiembro)>0): ?>
+
+					<table class="table">
+						<thead>
+							<tr>
+								<th width="20%">Monto</th>
+								<th width="20%">Descripción</th>
+								<th width="20%">Concepto</th>
+								<th width="20%" class="text-right">Acciones</th>
+							</tr>
+						</thead>	
+					<?php foreach ($conceptomiembro as $CM): ?>
+						<tbody>
+					
+						<tr>
+						
+							<td><?php echo $CM->monto; ?></td>
+							<td><?php echo $CM->descripcion; ?></td>
+							<td>
+								<?php if ($CM->concepto->tipo=='Egreso'): ?>
+									<span class='pmenor'>
+										<?php echo $CM->concepto->nombre; ?>
+									</span>
+								<?php else: ?>
+									<span class='pmayor'>
+										<?php echo $CM->concepto->nombre; ?>
+									</span>
+								<?php endif; ?>
+								
+							</td>
+							<td class="text-right">
+								<a href="<?php echo URL::to('/dashboard/conceptosmiembros/edit'); ?>/<?php echo $CM->id; ?>" class="btn btn-primary" alt="Modificar" title="Modificar" id="modificar" >
+									<span class="glyphicon glyphicon-edit"></span>
+								</a>
+								<a href="<?php echo URL::to('/dashboard/conceptosmiembros/destroy'); ?>/<?php echo $CM->id; ?>" class="btn btn-danger eliminar" alt="Eliminar" title="Eliminar" >
+									<span class="glyphicon glyphicon-trash"></span>
+								</a>
+								
+							</td>
+						</tr>
+						
+					<?php endforeach; ?>
+						</tbody>
+					</table>
+					<?php else: ?>
+						<h3>No hay Conceptos Creados Para Este Miembro</h3>
+					<?php endif; ?>
+
+						
+				</div>
+			</div>
+	
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('back.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
